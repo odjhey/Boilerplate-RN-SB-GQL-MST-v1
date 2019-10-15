@@ -13,6 +13,7 @@ import React from 'react';
 import { createHttpClient } from 'mst-gql';
 import { RootStore, StoreContext } from '../src/models';
 import Books from './Screens/Books';
+import User from './Screens/User';
 
 const rootStore = RootStore.create(undefined, {
   gqlHttpClient: createHttpClient('http://localhost:4000/graphql'),
@@ -21,7 +22,7 @@ const rootStore = RootStore.create(undefined, {
 const App = () => {
   return (
     <StoreContext.Provider value={rootStore}>
-      <Books></Books>
+      <User></User>
     </StoreContext.Provider>
   );
 };

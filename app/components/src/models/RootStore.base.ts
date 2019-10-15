@@ -6,6 +6,8 @@ import { MSTGQLStore, configureStoreMixin, QueryOptions } from "mst-gql"
 
 import { BookModel, BookModelType } from "./BookModel"
 import { bookModelPrimitives, BookModelSelector } from "./BookModel.base"
+import { UserModel, UserModelType } from "./UserModel"
+import { userModelPrimitives, UserModelSelector } from "./UserModel.base"
 
 
 /**
@@ -13,14 +15,20 @@ import { bookModelPrimitives, BookModelSelector } from "./BookModel.base"
 */
 export const RootStoreBase = MSTGQLStore
   .named("RootStore")
-  .extend(configureStoreMixin([['Book', () => BookModel]], ['Book']))
+  .extend(configureStoreMixin([['Book', () => BookModel], ['User', () => UserModel]], ['Book', 'User']))
   .props({
-    books: types.optional(types.map(types.late(() => BookModel)), {})
+    books: types.optional(types.map(types.late(() => BookModel)), {}),
+    users: types.optional(types.map(types.late(() => UserModel)), {})
   })
   .actions(self => ({
     queryBooks(variables?: {  }, resultSelector: string | ((qb: BookModelSelector) => BookModelSelector) = bookModelPrimitives.toString(), options: QueryOptions = {}) {
       return self.query<{ books: BookModelType[]}>(`query books { books {
         ${typeof resultSelector === "function" ? resultSelector(new BookModelSelector()).toString() : resultSelector}
+      } }`, variables, options)
+    },
+    queryUsers(variables?: {  }, resultSelector: string | ((qb: UserModelSelector) => UserModelSelector) = userModelPrimitives.toString(), options: QueryOptions = {}) {
+      return self.query<{ users: UserModelType[]}>(`query users { users {
+        ${typeof resultSelector === "function" ? resultSelector(new UserModelSelector()).toString() : resultSelector}
       } }`, variables, options)
     },
     mutateCreateBook(variables: { title: string | undefined, author: string | undefined, checkin: boolean | undefined }, resultSelector: string | ((qb: BookModelSelector) => BookModelSelector) = bookModelPrimitives.toString(), optimisticUpdate?: () => void) {
@@ -41,6 +49,11 @@ export const RootStoreBase = MSTGQLStore
     mutateCheckin(variables: { id: string | undefined, checkin: boolean | undefined }, resultSelector: string | ((qb: BookModelSelector) => BookModelSelector) = bookModelPrimitives.toString(), optimisticUpdate?: () => void) {
       return self.mutate<{ checkin: BookModelType[]}>(`mutation checkin($id: ID, $checkin: Boolean) { checkin(id: $id, checkin: $checkin) {
         ${typeof resultSelector === "function" ? resultSelector(new BookModelSelector()).toString() : resultSelector}
+      } }`, variables, optimisticUpdate)
+    },
+    mutateCreateUser(variables: { name: string | undefined }, resultSelector: string | ((qb: UserModelSelector) => UserModelSelector) = userModelPrimitives.toString(), optimisticUpdate?: () => void) {
+      return self.mutate<{ createUser: UserModelType}>(`mutation createUser($name: String) { createUser(name: $name) {
+        ${typeof resultSelector === "function" ? resultSelector(new UserModelSelector()).toString() : resultSelector}
       } }`, variables, optimisticUpdate)
     },
   }))

@@ -3,5 +3,6 @@
 /* tslint:disable */
 
 export * from "./BookModel"
+export * from "./UserModel"
 export * from "./RootStore"
 export * from "./reactUtils"
