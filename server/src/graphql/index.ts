@@ -35,6 +35,7 @@ const typeDefs = gql`
     deleteBook(id: ID): Book
     checkin(id: ID, checkin: Boolean): [Book]
     createUser(name: String): User
+    userCheckin(id: ID!): User
   }
 `;
 
@@ -75,6 +76,15 @@ const resolvers = {
     createUser: async (_, { name }, { User }) => {
       const newUser = await new User({ name });
       return newUser.save();
+    },
+    userCheckin: async (_, { id }, { User }) => {
+      const user = await User.findOne({ _id: id });
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: id },
+        { checkin: !user.checkin },
+        { new: true }
+      );
+      return updatedUser;
     }
   }
 };

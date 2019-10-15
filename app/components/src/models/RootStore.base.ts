@@ -56,4 +56,9 @@ export const RootStoreBase = MSTGQLStore
         ${typeof resultSelector === "function" ? resultSelector(new UserModelSelector()).toString() : resultSelector}
       } }`, variables, optimisticUpdate)
     },
+    mutateUserCheckin(variables: { id: string }, resultSelector: string | ((qb: UserModelSelector) => UserModelSelector) = userModelPrimitives.toString(), optimisticUpdate?: () => void) {
+      return self.mutate<{ userCheckin: UserModelType}>(`mutation userCheckin($id: ID!) { userCheckin(id: $id) {
+        ${typeof resultSelector === "function" ? resultSelector(new UserModelSelector()).toString() : resultSelector}
+      } }`, variables, optimisticUpdate)
+    },
   }))

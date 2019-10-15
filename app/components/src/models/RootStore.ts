@@ -25,7 +25,11 @@ export const RootStore = RootStoreBase.props({
       },
       get me() {
         return (
-          [...self.users.values()][0] || { name: 'john doe', checkin: false }
+          [...self.users.values()][0] || {
+            name: 'john doe',
+            checkin: false,
+            id: '',
+          }
         );
       },
     };
