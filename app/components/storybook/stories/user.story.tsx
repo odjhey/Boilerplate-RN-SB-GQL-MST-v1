@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react-native';
 import React from 'react';
 
-import UserProfile from '../../components/User';
+import UserProfile, { UserItem } from '../../components/User';
 
 const users = [
   {
@@ -22,4 +22,8 @@ storiesOf('User', module)
   .add('User out', () => {
     const user = users[0];
     return <UserProfile checkin={false} name={user.name}></UserProfile>;
+  })
+  .add('User as list item', () => {
+    const user = users[0];
+    return <UserItem checkin={false} name={user.name}></UserItem>;
   });

@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Badge, Avatar, Text } from 'react-native-elements';
+import { ListItem, Badge, Avatar, Text } from 'react-native-elements';
 
 export interface IUserProfileProps {
-  name: String;
+  name: string;
   checkin: Boolean;
   onCheckIn?: any;
 }
@@ -39,4 +39,33 @@ const UserProfile = (props: IUserProfileProps) => {
     </View>
   );
 };
+
+const UserItem = (props: IUserProfileProps) => {
+  const { name, checkin, onCheckIn } = props;
+  return (
+    <View>
+      <ListItem
+        title={name}
+        rightElement={
+          <View>
+            {checkin ? (
+              <Badge value="Online Status" status="success"></Badge>
+            ) : (
+              <Badge value="Online Status" status="error"></Badge>
+            )}
+          </View>
+        }
+        leftAvatar={
+          <Avatar
+            rounded
+            title="O"
+            onPress={() => {
+              onCheckIn ? onCheckIn() : null;
+            }}></Avatar>
+        }></ListItem>
+    </View>
+  );
+};
+
 export default UserProfile;
+export { UserItem };
