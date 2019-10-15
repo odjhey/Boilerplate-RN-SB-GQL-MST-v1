@@ -50,22 +50,6 @@ const BookListWithData = observer(() => {
         return index;
       }}></BooksList>
   );
-
-  //  return (
-  //    <View>
-  //      <View>
-  //        {[...store.vfilteredBooks('').values()].map((item, i) => {
-  //          return (
-  //            <ObservableListItem
-  //              key={item.id}
-  //              title={item.title}
-  //              author={item.author}
-  //              id={item.id}></ObservableListItem>
-  //          );
-  //        })}
-  //      </View>
-  //    </View>
-  //  );
 });
 
 export default observer(props => {

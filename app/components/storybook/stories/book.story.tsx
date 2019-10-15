@@ -1,26 +1,6 @@
-import React from 'react';
 import { storiesOf } from '@storybook/react-native';
-import {
-  View,
-  Text,
-  ViewStyle,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
-import moment from 'moment';
-import { SingleDate as CalendarSingleDate } from '../../components/Calendar';
-import { Home } from '../../components/Home';
-import { ListItem, Button } from 'react-native-elements';
+import React from 'react';
 import { Book, BooksList } from './../../components/Books';
-
-const style: ViewStyle = {
-  flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: '#F5FCFF',
-};
-
-const CenteredView = ({ children }) => <View style={style}>{children}</View>;
 
 const books = [
   {
