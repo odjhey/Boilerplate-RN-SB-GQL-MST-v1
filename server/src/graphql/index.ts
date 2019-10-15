@@ -72,7 +72,10 @@ const resolvers = {
       const { _id, title, author, checkin } = book;
       return { id: _id, title, author, checkin, isDeleted: true };
     },
-    createUser: () => {}
+    createUser: async (_, { name }, { User }) => {
+      const newUser = await new User({ name });
+      return newUser.save();
+    }
   }
 };
 
