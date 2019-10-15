@@ -1,0 +1,66 @@
+import { gql } from "apollo-server";
+
+// A schema is a collection of type definitions (hence "typeDefs")
+// that together define the "shape" of queries that are executed against
+// your data.
+const typeDefs = gql`
+  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+
+  # This "Book" type defines the queryable fields for every book in our data source.
+  type Book {
+    id: ID!
+    title: String
+    author: String
+    checkin: Boolean
+    isDeleted: Boolean
+  }
+
+  # The "Query" type is special: it lists all of the available queries that
+  # clients can execute, along with the return type for each. In this
+  # case, the "books" query returns an array of zero or more Books (defined above).
+  type Query {
+    books: [Book]
+  }
+
+  type Mutation {
+    createBook(title: String, author: String, checkin: Boolean): Book
+    updateBook(id: ID, title: String, author: String, checkin: Boolean): Book
+    deleteBook(id: ID): Book
+    checkin(id: ID, checkin: Boolean): [Book]
+  }
+`;
+
+// Resolvers define the technique for fetching the types defined in the
+// schema. This resolver retrieves books from the "books" array above.
+const resolvers = {
+  Query: {
+    books: async (_, __, { Book }) => {
+      const books = Book.find();
+      return books;
+    }
+  },
+  Mutation: {
+    createBook: async (_, { title, author, checkin }, { Book }) => {
+      const newBook = await new Book({ title, author, checkin });
+      return newBook.save();
+    },
+    updateBook: async (_, { id, title, author, checkin }, { Book }) => {
+      const book = await Book.findOneAndUpdate(
+        { _id: id },
+        { title, author, checkin },
+        { new: true }
+      );
+      return book;
+    },
+    deleteBook: async (_, { id }, { Book }) => {
+      const book = await Book.findOneAndRemove({
+        _id: id
+      });
+      if (!book) throw new Error("Nothing found.");
+      const { _id, title, author, checkin } = book;
+      return { id: _id, title, author, checkin, isDeleted: true };
+    }
+  }
+};
+
+export { typeDefs, resolvers };

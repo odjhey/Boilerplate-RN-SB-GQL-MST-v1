@@ -23,13 +23,23 @@ export const RootStoreBase = MSTGQLStore
         ${typeof resultSelector === "function" ? resultSelector(new BookModelSelector()).toString() : resultSelector}
       } }`, variables, options)
     },
-    mutateCreateBook(variables: { title: string | undefined, author: string | undefined }, resultSelector: string | ((qb: BookModelSelector) => BookModelSelector) = bookModelPrimitives.toString(), optimisticUpdate?: () => void) {
-      return self.mutate<{ createBook: BookModelType}>(`mutation createBook($title: String, $author: String) { createBook(title: $title, author: $author) {
+    mutateCreateBook(variables: { title: string | undefined, author: string | undefined, checkin: boolean | undefined }, resultSelector: string | ((qb: BookModelSelector) => BookModelSelector) = bookModelPrimitives.toString(), optimisticUpdate?: () => void) {
+      return self.mutate<{ createBook: BookModelType}>(`mutation createBook($title: String, $author: String, $checkin: Boolean) { createBook(title: $title, author: $author, checkin: $checkin) {
         ${typeof resultSelector === "function" ? resultSelector(new BookModelSelector()).toString() : resultSelector}
       } }`, variables, optimisticUpdate)
     },
-    mutateUpdateBook(variables: { id: string | undefined, title: string | undefined, author: string | undefined }, resultSelector: string | ((qb: BookModelSelector) => BookModelSelector) = bookModelPrimitives.toString(), optimisticUpdate?: () => void) {
-      return self.mutate<{ updateBook: BookModelType}>(`mutation updateBook($id: ID, $title: String, $author: String) { updateBook(id: $id, title: $title, author: $author) {
+    mutateUpdateBook(variables: { id: string | undefined, title: string | undefined, author: string | undefined, checkin: boolean | undefined }, resultSelector: string | ((qb: BookModelSelector) => BookModelSelector) = bookModelPrimitives.toString(), optimisticUpdate?: () => void) {
+      return self.mutate<{ updateBook: BookModelType}>(`mutation updateBook($id: ID, $title: String, $author: String, $checkin: Boolean) { updateBook(id: $id, title: $title, author: $author, checkin: $checkin) {
+        ${typeof resultSelector === "function" ? resultSelector(new BookModelSelector()).toString() : resultSelector}
+      } }`, variables, optimisticUpdate)
+    },
+    mutateDeleteBook(variables: { id: string | undefined }, resultSelector: string | ((qb: BookModelSelector) => BookModelSelector) = bookModelPrimitives.toString(), optimisticUpdate?: () => void) {
+      return self.mutate<{ deleteBook: BookModelType}>(`mutation deleteBook($id: ID) { deleteBook(id: $id) {
+        ${typeof resultSelector === "function" ? resultSelector(new BookModelSelector()).toString() : resultSelector}
+      } }`, variables, optimisticUpdate)
+    },
+    mutateCheckin(variables: { id: string | undefined, checkin: boolean | undefined }, resultSelector: string | ((qb: BookModelSelector) => BookModelSelector) = bookModelPrimitives.toString(), optimisticUpdate?: () => void) {
+      return self.mutate<{ checkin: BookModelType[]}>(`mutation checkin($id: ID, $checkin: Boolean) { checkin(id: $id, checkin: $checkin) {
         ${typeof resultSelector === "function" ? resultSelector(new BookModelSelector()).toString() : resultSelector}
       } }`, variables, optimisticUpdate)
     },

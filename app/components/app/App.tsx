@@ -12,7 +12,7 @@ import React from 'react';
 
 import { createHttpClient } from 'mst-gql';
 import { RootStore, StoreContext } from '../src/models';
-import SimpleList from './SimpleList';
+import Books from './Screens/Books';
 
 const rootStore = RootStore.create(undefined, {
   gqlHttpClient: createHttpClient('http://localhost:4000/graphql'),
@@ -21,10 +21,11 @@ const rootStore = RootStore.create(undefined, {
 const App = () => {
   return (
     <StoreContext.Provider value={rootStore}>
-      <SimpleList></SimpleList>
+      <Books></Books>
     </StoreContext.Provider>
   );
 };
 
 global.store = rootStore; // eslint-disable-line
+
 export default App;

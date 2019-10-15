@@ -1,59 +1,46 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const apollo_server_1 = require("apollo-server");
-const books = [
-    {
-        title: "Harry Potter and the Chamber of Secrets",
-        author: "J.K. Rowling"
-    },
-    {
-        title: "Jurassic Park",
-        author: "aMichael ehCrichton"
-    }
-];
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
-const typeDefs = apollo_server_1.gql `
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
-  }
+var _apolloServer = require("apollo-server");
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
-  type Query {
-    books: [Book]
-  }
-`;
-// Resolvers define the technique for fetching the types defined in the
-// schema. This resolver retrieves books from the "books" array above.
-const resolvers = {
-    Query: {
-        books: () => books
-    }
-};
-// The ApolloServer constructor requires two parameters: your schema
+var _mongoose = _interopRequireDefault(require("mongoose"));
+
+var _models = require("./models");
+
+var _graphql = require("./graphql");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+require("dotenv").config();
+
+// Database
+_mongoose["default"].set("useFindAndModify", false);
+
+var db = process.env.mongoURI;
+
+_mongoose["default"].connect(db || "", {
+  useCreateIndex: true,
+  useNewUrlParser: true
+}).then(function () {
+  return console.log("MongoDB connected");
+})["catch"](function (err) {
+  return console.log(err);
+}); // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
-const server = new apollo_server_1.ApolloServer({ typeDefs, resolvers });
-// The `listen` method launches a web server.
-server.listen().then(({ url }) => {
-    console.log(`🚀  Server ready at ${url}`);
-});
-/*
-const app = express();
-const port = 3000;
-app.get("/", (req, res) => {
-  res.send("The sedulous hyena ate the antelope!");
-});
-app.listen(port, err => {
-  if (err) {
-    return console.error(err);
+
+
+var server = new _apolloServer.ApolloServer({
+  typeDefs: _graphql.typeDefs,
+  resolvers: _graphql.resolvers,
+  context: function context(_ref) {
+    var req = _ref.req;
+    return {
+      Book: _models.Book
+    };
   }
-  return console.log(`server is listening on ${port}`);
+}); // The `listen` method launches a web server.
+
+server.listen().then(function (_ref2) {
+  var url = _ref2.url;
+  console.log("\uD83D\uDE80  Server ready at ".concat(url));
 });
-*/
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9zZXJ2ZXIudHMiXSwibmFtZXMiOlsicmVxdWlyZSIsImNvbmZpZyIsIm1vbmdvb3NlIiwic2V0IiwiZGIiLCJwcm9jZXNzIiwiZW52IiwibW9uZ29VUkkiLCJjb25uZWN0IiwidXNlQ3JlYXRlSW5kZXgiLCJ1c2VOZXdVcmxQYXJzZXIiLCJ0aGVuIiwiY29uc29sZSIsImxvZyIsImVyciIsInNlcnZlciIsIkFwb2xsb1NlcnZlciIsInR5cGVEZWZzIiwicmVzb2x2ZXJzIiwiY29udGV4dCIsInJlcSIsIkJvb2siLCJsaXN0ZW4iLCJ1cmwiXSwibWFwcGluZ3MiOiI7O0FBRUE7O0FBRUE7O0FBQ0E7O0FBQ0E7Ozs7QUFOQUEsT0FBTyxDQUFDLFFBQUQsQ0FBUCxDQUFrQkMsTUFBbEI7O0FBUUE7QUFDQUMscUJBQVNDLEdBQVQsQ0FBYSxrQkFBYixFQUFpQyxLQUFqQzs7SUFDa0JDLEUsR0FBT0MsT0FBTyxDQUFDQyxHLENBQXpCQyxROztBQUVSTCxxQkFDR00sT0FESCxDQUNXSixFQUFFLElBQUksRUFEakIsRUFDcUI7QUFDakJLLEVBQUFBLGNBQWMsRUFBRSxJQURDO0FBRWpCQyxFQUFBQSxlQUFlLEVBQUU7QUFGQSxDQURyQixFQUtHQyxJQUxILENBS1E7QUFBQSxTQUFNQyxPQUFPLENBQUNDLEdBQVIsQ0FBWSxtQkFBWixDQUFOO0FBQUEsQ0FMUixXQU1TLFVBQUFDLEdBQUc7QUFBQSxTQUFJRixPQUFPLENBQUNDLEdBQVIsQ0FBWUMsR0FBWixDQUFKO0FBQUEsQ0FOWixFLENBUUE7QUFDQTs7O0FBQ0EsSUFBTUMsTUFBTSxHQUFHLElBQUlDLDBCQUFKLENBQWlCO0FBQzlCQyxFQUFBQSxRQUFRLEVBQVJBLGlCQUQ4QjtBQUU5QkMsRUFBQUEsU0FBUyxFQUFUQSxrQkFGOEI7QUFHOUJDLEVBQUFBLE9BQU8sRUFBRSx1QkFBYTtBQUFBLFFBQVZDLEdBQVUsUUFBVkEsR0FBVTtBQUNwQixXQUFPO0FBQ0xDLE1BQUFBLElBQUksRUFBSkE7QUFESyxLQUFQO0FBR0Q7QUFQNkIsQ0FBakIsQ0FBZixDLENBVUE7O0FBQ0FOLE1BQU0sQ0FBQ08sTUFBUCxHQUFnQlgsSUFBaEIsQ0FBcUIsaUJBQWE7QUFBQSxNQUFWWSxHQUFVLFNBQVZBLEdBQVU7QUFDaENYLEVBQUFBLE9BQU8sQ0FBQ0MsR0FBUix5Q0FBbUNVLEdBQW5DO0FBQ0QsQ0FGRCIsInNvdXJjZXNDb250ZW50IjpbInJlcXVpcmUoXCJkb3RlbnZcIikuY29uZmlnKCk7XG5cbmltcG9ydCB7IEFwb2xsb1NlcnZlciB9IGZyb20gXCJhcG9sbG8tc2VydmVyXCI7XG5cbmltcG9ydCBtb25nb29zZSBmcm9tIFwibW9uZ29vc2VcIjtcbmltcG9ydCB7IEJvb2sgfSBmcm9tIFwiLi9tb2RlbHNcIjtcbmltcG9ydCB7IHJlc29sdmVycywgdHlwZURlZnMgfSBmcm9tIFwiLi9ncmFwaHFsXCI7XG5cbi8vIERhdGFiYXNlXG5tb25nb29zZS5zZXQoXCJ1c2VGaW5kQW5kTW9kaWZ5XCIsIGZhbHNlKTtcbmNvbnN0IHsgbW9uZ29VUkk6IGRiIH0gPSBwcm9jZXNzLmVudjtcblxubW9uZ29vc2VcbiAgLmNvbm5lY3QoZGIgfHwgXCJcIiwge1xuICAgIHVzZUNyZWF0ZUluZGV4OiB0cnVlLFxuICAgIHVzZU5ld1VybFBhcnNlcjogdHJ1ZVxuICB9KVxuICAudGhlbigoKSA9PiBjb25zb2xlLmxvZyhcIk1vbmdvREIgY29ubmVjdGVkXCIpKVxuICAuY2F0Y2goZXJyID0+IGNvbnNvbGUubG9nKGVycikpO1xuXG4vLyBUaGUgQXBvbGxvU2VydmVyIGNvbnN0cnVjdG9yIHJlcXVpcmVzIHR3byBwYXJhbWV0ZXJzOiB5b3VyIHNjaGVtYVxuLy8gZGVmaW5pdGlvbiBhbmQgeW91ciBzZXQgb2YgcmVzb2x2ZXJzLlxuY29uc3Qgc2VydmVyID0gbmV3IEFwb2xsb1NlcnZlcih7XG4gIHR5cGVEZWZzLFxuICByZXNvbHZlcnMsXG4gIGNvbnRleHQ6ICh7IHJlcSB9KSA9PiB7XG4gICAgcmV0dXJuIHtcbiAgICAgIEJvb2tcbiAgICB9O1xuICB9XG59KTtcblxuLy8gVGhlIGBsaXN0ZW5gIG1ldGhvZCBsYXVuY2hlcyBhIHdlYiBzZXJ2ZXIuXG5zZXJ2ZXIubGlzdGVuKCkudGhlbigoeyB1cmwgfSkgPT4ge1xuICBjb25zb2xlLmxvZyhg8J+agCAgU2VydmVyIHJlYWR5IGF0ICR7dXJsfWApO1xufSk7XG4iXX0=
