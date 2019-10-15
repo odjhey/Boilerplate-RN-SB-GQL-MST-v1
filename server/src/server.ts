@@ -3,7 +3,7 @@ require("dotenv").config();
 import { ApolloServer } from "apollo-server";
 
 import mongoose from "mongoose";
-import { Book } from "./models";
+import { Book, User } from "./models";
 import { resolvers, typeDefs } from "./graphql";
 
 // Database
@@ -25,7 +25,8 @@ const server = new ApolloServer({
   resolvers,
   context: ({ req }) => {
     return {
-      Book
+      Book,
+      User
     };
   }
 });

@@ -23,4 +23,18 @@ const BookSchema = new Schema(
 
 const Book = mongoose.model("Book", BookSchema);
 
-export { Book };
+const UserSchema = new Schema(
+  {
+    name: {
+      type: String
+    },
+    checkin: {
+      type: Boolean
+    }
+  },
+  { timestamps: true }
+);
+
+const User = mongoose.model("User", UserSchema);
+
+export { Book, User };

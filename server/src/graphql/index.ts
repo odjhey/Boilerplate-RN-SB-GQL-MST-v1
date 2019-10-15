@@ -15,11 +15,18 @@ const typeDefs = gql`
     isDeleted: Boolean
   }
 
+  type User {
+    id: ID!
+    name: String
+    checkin: Boolean
+  }
+
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
     books: [Book]
+    users: [User]
   }
 
   type Mutation {
@@ -27,6 +34,7 @@ const typeDefs = gql`
     updateBook(id: ID, title: String, author: String, checkin: Boolean): Book
     deleteBook(id: ID): Book
     checkin(id: ID, checkin: Boolean): [Book]
+    createUser(name: String): User
   }
 `;
 
@@ -37,6 +45,10 @@ const resolvers = {
     books: async (_, __, { Book }) => {
       const books = Book.find();
       return books;
+    },
+    users: async (_, __, { User }) => {
+      const users = User.find();
+      return users;
     }
   },
   Mutation: {
@@ -59,7 +71,8 @@ const resolvers = {
       if (!book) throw new Error("Nothing found.");
       const { _id, title, author, checkin } = book;
       return { id: _id, title, author, checkin, isDeleted: true };
-    }
+    },
+    createUser: () => {}
   }
 };
 
