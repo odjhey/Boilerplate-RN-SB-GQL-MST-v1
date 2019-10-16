@@ -48,6 +48,7 @@ const UserItem = (props: IUserProfileProps) => {
         title={name}
         rightElement={
           <View>
+            <View>;</View>
             {checkin ? (
               <Badge value="Online Status" status="success"></Badge>
             ) : (

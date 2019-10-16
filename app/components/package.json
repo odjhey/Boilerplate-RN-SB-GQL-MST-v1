@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@storybook/react-native": "5.2.3",
-    "components": "^0.1.0",
     "graphql": "^14.5.8",
     "graphql-request": "^1.8.2",
     "graphql-tag": "^2.10.1",
@@ -45,9 +44,12 @@
     "@react-native-community/eslint-config": "^0.0.5",
     "@storybook/addon-knobs": "^5.2.3",
     "@storybook/addon-ondevice-knobs": "^5.2.3",
+    "@types/jest": "^24.0.19",
     "@types/react-native": "^0.60.19",
     "@types/storybook__react": "^4.0.2",
     "babel-jest": "^24.9.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "6.1.0",
     "eslint-config-airbnb": "18.0.1",
     "eslint-plugin-import": "^2.18.2",
@@ -57,9 +59,10 @@
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.56.0",
     "react-native-storybook-loader": "^1.8.1",
-    "react-test-renderer": "16.9.0"
+    "react-test-renderer": "^16.10.2"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFilesAfterEnv": ["<rootDir>/setupTests.js"]
   }
 }
