@@ -9,14 +9,7 @@ import { shallow } from 'enzyme';
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
 
-import App from '../app/App';
 import UserProfile, { UserItem } from '../components/User';
-
-describe('App', () => {
-  it('App renders correctly', () => {
-    renderer.create(<App />);
-  });
-});
 
 describe('<S> UserProfile', () => {
   const userData = {
@@ -24,15 +17,12 @@ describe('<S> UserProfile', () => {
     checkin: false,
   };
   it('Renders', () => {
-    renderer.create(
-      <UserProfile name={userData.name} checkin={userData.checkin} />,
-    );
+    shallow(<UserProfile name={userData.name} checkin={userData.checkin} />);
   });
   it('UserItem Renders', () => {
-    shallow(
-      //renderer.create(
-      <UserItem name={userData.name} checkin={userData.checkin} />,
-    );
+    expect(
+      shallow(<UserItem name={userData.name} checkin={userData.checkin} />),
+    ).toMatchSnapshot();
   });
 });
 

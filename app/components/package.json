@@ -44,6 +44,7 @@
     "@react-native-community/eslint-config": "^0.0.5",
     "@storybook/addon-knobs": "^5.2.3",
     "@storybook/addon-ondevice-knobs": "^5.2.3",
+    "@types/enzyme": "^3.10.3",
     "@types/jest": "^24.0.19",
     "@types/react-native": "^0.60.19",
     "@types/storybook__react": "^4.0.2",
@@ -57,12 +58,20 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^24.9.0",
+    "jest-environment-enzyme": "^7.1.1",
+    "jest-enzyme": "^7.1.1",
     "metro-react-native-babel-preset": "^0.56.0",
     "react-native-storybook-loader": "^1.8.1",
     "react-test-renderer": "^16.10.2"
   },
   "jest": {
     "preset": "react-native",
-    "setupFilesAfterEnv": ["<rootDir>/setupTests.js"]
+    "testEnvironment": "enzyme",
+    "testEnvironmentOptions": {
+      "enzymeAdapter": "react16"
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.js", "jest-enzyme"
+    ]
   }
 }

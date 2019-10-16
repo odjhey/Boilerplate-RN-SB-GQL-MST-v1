@@ -43,28 +43,25 @@ const UserProfile = (props: IUserProfileProps) => {
 const UserItem = (props: IUserProfileProps) => {
   const { name, checkin, onCheckIn } = props;
   return (
-    <View>
-      <ListItem
-        title={name}
-        rightElement={
-          <View>
-            <View>;</View>
-            {checkin ? (
-              <Badge value="Online Status" status="success"></Badge>
-            ) : (
-              <Badge value="Online Status" status="error"></Badge>
-            )}
-          </View>
-        }
-        leftAvatar={
-          <Avatar
-            rounded
-            title="O"
-            onPress={() => {
-              onCheckIn ? onCheckIn() : null;
-            }}></Avatar>
-        }></ListItem>
-    </View>
+    <ListItem
+      title={name}
+      rightElement={
+        <View>
+          {checkin ? (
+            <Badge value="Online Status" status="success"></Badge>
+          ) : (
+            <Badge value="Online Status" status="error"></Badge>
+          )}
+        </View>
+      }
+      leftAvatar={
+        <Avatar
+          rounded
+          title="O"
+          onPress={() => {
+            onCheckIn ? onCheckIn() : null;
+          }}></Avatar>
+      }></ListItem>
   );
 };
 
