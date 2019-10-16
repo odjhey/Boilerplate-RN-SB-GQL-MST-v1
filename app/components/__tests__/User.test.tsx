@@ -11,34 +11,36 @@ import renderer from 'react-test-renderer';
 
 import UserProfile, { UserItem } from '../components/User';
 
-describe('<S> UserProfile', () => {
-  const userData = {
-    name: 'Name',
-    checkin: false,
-  };
-  it('Renders', () => {
-    shallow(<UserProfile name={userData.name} checkin={userData.checkin} />);
+describe('UserProfile', () => {
+  describe('Rendering', () => {
+    const userData = {
+      name: 'Name',
+      checkin: false,
+    };
+    it('Renders', () => {
+      shallow(<UserProfile name={userData.name} checkin={userData.checkin} />);
+    });
+    it('UserItem Renders', () => {
+      expect(
+        shallow(<UserItem name={userData.name} checkin={userData.checkin} />),
+      ).toMatchSnapshot();
+    });
   });
-  it('UserItem Renders', () => {
-    expect(
-      shallow(<UserItem name={userData.name} checkin={userData.checkin} />),
-    ).toMatchSnapshot();
-  });
-});
 
-describe('<I> UserProfile', () => {
-  const userData = {
-    name: 'Name',
-    checkin: false,
-  };
-  it('Profile checkin value should change after Checkin Pressed', () => {
-    renderer.create(
-      <UserProfile name={userData.name} checkin={userData.checkin} />,
-    );
-  });
-  it('Profile checkin value should change after Checkin Pressed', () => {
-    renderer.create(
-      <UserProfile name={userData.name} checkin={userData.checkin} />,
-    );
+  describe('Interaction', () => {
+    const userData = {
+      name: 'Name',
+      checkin: false,
+    };
+    it('Profile checkin value should change after Checkin Pressed', () => {
+      renderer.create(
+        <UserProfile name={userData.name} checkin={userData.checkin} />,
+      );
+    });
+    it('Profile checkin value should change after Checkin Pressed', () => {
+      renderer.create(
+        <UserProfile name={userData.name} checkin={userData.checkin} />,
+      );
+    });
   });
 });

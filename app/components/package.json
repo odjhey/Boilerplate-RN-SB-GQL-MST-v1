@@ -6,7 +6,8 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --verbose --coverage",
+    "test:w": "jest --watch",
     "lint": "eslint .",
     "storybook": "storybook start",
     "sb": "storybook start",
@@ -65,6 +66,7 @@
     "react-test-renderer": "^16.10.2"
   },
   "jest": {
+
     "preset": "react-native",
     "testEnvironment": "enzyme",
     "testEnvironmentOptions": {
