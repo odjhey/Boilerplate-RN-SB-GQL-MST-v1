@@ -22,7 +22,7 @@ const rootStore = RootStore.create(undefined, {
 const App = () => {
   return (
     <StoreContext.Provider value={rootStore}>
-      <User></User>
+      <Books></Books>
     </StoreContext.Provider>
   );
 };

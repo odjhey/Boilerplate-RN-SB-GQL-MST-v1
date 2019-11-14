@@ -6,7 +6,7 @@ const books = [
   {
     title: 'hayi pottah',
     author: 'jk rowling',
-    checkin: false,
+    checkin: true,
     isDeleted: false,
   },
   {
@@ -42,7 +42,7 @@ storiesOf('Books', module)
         data={books}
         loading={false}
         renderItem={({ item, index }) => {
-          return <Book {...item} deletable={true}></Book>;
+          return <Book {...item} deletable={!item.checkin}></Book>;
         }}
         keyExtractor={({ item, index }) => {
           return index;
